@@ -23,11 +23,15 @@ func SrhKwd(kwd string) ([]string, error) {
     }
     byts, _ := ioutil.ReadAll(res.Body)
     pgn := gpn.GetNumPages(byts)
+    ids = append(ids, gpi.GetPageIds(byts)...)
     if pgn < 1 {
-        return nil, fmt.Errorf("[S] %s: no search result", kwd)
+        if  len(ids) > 0 {
+            return ids, nil
+        } else {
+            return nil, fmt.Errorf("[S] %s: no search result", kwd)
+        }
     }
 
-    ids = append(ids, gpi.GetPageIds(byts)...)
 
     const THREAD_POOL_SIZE = 10
     const PGN_CHAN_SIZE = 5
@@ -43,7 +47,6 @@ func SrhKwd(kwd string) ([]string, error) {
             }()
             for {
                 pgn := <-pgn_chan
-                println("get pgn = ", pgn)
                 if pgn == -1 {
                     break
                 }
