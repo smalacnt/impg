@@ -66,6 +66,9 @@ func GetTorFromImgs(imgs_path string, download_path string) (err error) {
 		if len(filename) < 5 {
 			continue
 		}
+        if filename[len(filename) - 4:] != ".jpg" {
+            continue
+        }
 		fn_chan <- filename[:len(filename)-4]
 	}
 	for i := 0; i < ROUTINE_NUM; i += 1 {

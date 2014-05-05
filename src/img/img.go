@@ -22,16 +22,16 @@ func GetImg(path string, id string) error {
     }()
 
     if err != nil {
-        return err
+        return fmt.Errorf("[DI] %s: %s", id, err.Error())
     }
 
     if res.Header["Content-Type"] == nil || res.Header["Content-Type"][0] != "image/jpeg" {
-        return fmt.Errorf("Picture not found")
+        return fmt.Errorf("[DI] %s: picture not found", id)
     }
 
     file, err := os.Create(path + "/" + id + ".jpg")
     if err != nil {
-        return err
+        return fmt.Errorf("[DI] %s: %s", id, err.Error())
     }
     defer file.Close()
     io.Copy(file, res.Body)
