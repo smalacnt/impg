@@ -23,7 +23,6 @@ func SrhKwd(kwd string) ([]string, error) {
     }
     byts, _ := ioutil.ReadAll(res.Body)
     pgn := gpn.GetNumPages(byts)
-    println("pgn = ", pgn)
     if pgn < 1 {
         return nil, fmt.Errorf("[S] %s: no search result", kwd)
     }
