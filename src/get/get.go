@@ -12,6 +12,7 @@ import (
     "ls"
     "fmt"
     "os"
+    "strings"
 )
 
 func usage(progName string) {
@@ -148,6 +149,19 @@ func it(fn_path string, dl_path string) {
         usage(os.Args[0])
     }
 
+    tornames, err := ls.GetFilenames(dl_path)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "%s\n", err.Error())
+        usage(os.Args[0])
+    }
+
+    exist := map[string]bool{}
+    for _, torname := range tornames {
+        if strings.HasSuffix(torname, ".torrent") {
+            exist[torname[:len(torname) - 8]] = true
+        }
+    }
+
     const ID_CHAN_SIZE = 10
     const THREAD_POOL_SIZE = 5
     id_chan := make(chan string, ID_CHAN_SIZE)
@@ -160,25 +174,37 @@ func it(fn_path string, dl_path string) {
                 if id == "$" {
                     break
                 }
+                if exist[id] {
+                    continue
+                }
+
+                fmt.Fprintf(os.Stdout, "Downloading %s...\n", id)
                 err := tor.GetTor(dl_path, id)
                 if err != nil {
                     fmt.Fprintf(os.Stderr, "%s\n", err.Error())
                 }
             }
-            end_chan <- true
+            defer func() {
+                end_chan <- true
+            }()
         }(id_chan, end_chan)
     }
 
-    for _, filename := range filenames {
-        if len(filename) < 5 {
-            continue
+    go func() {
+        for _, filename := range filenames {
+            if len(filename) < 5 {
+                continue
+            }
+            if !strings.HasSuffix(filename, ".jpg"){
+                continue
+            }
+            id_chan <- filename[:len(filename) - 4]
         }
-        id_chan <- filename[:len(filename) - 4]
-    }
 
-    for i := 0; i < THREAD_POOL_SIZE; i += 1 {
-        id_chan <- "$"
-    }
+        for i := 0; i < THREAD_POOL_SIZE; i += 1 {
+            id_chan <- "$"
+        }
+    }()
 
     for i := 0; i < THREAD_POOL_SIZE; i += 1 {
         <-end_chan

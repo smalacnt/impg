@@ -21,15 +21,18 @@ func GetImg(path string, id string) error {
         }
     }()
 
+    // check http.Get result
     if err != nil {
         return fmt.Errorf("[DI] %s: %s", id, err.Error())
     }
 
+    // check return content is a img
     if res.Header["Content-Type"] == nil || res.Header["Content-Type"][0] != "image/jpeg" {
         return fmt.Errorf("[DI] %s: picture not found", id)
     }
 
     file, err := os.Create(path + "/" + id + ".jpg")
+    // check create file
     if err != nil {
         return fmt.Errorf("[DI] %s: %s", id, err.Error())
     }
