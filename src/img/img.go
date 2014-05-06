@@ -41,4 +41,3 @@ func GetImg(path string, id string) error {
     file.Sync()
     return nil
 }
-
