@@ -13,13 +13,21 @@ import (
     "io/ioutil"
 )
 
-func SrhKwd(kwd string) ([]string, error) {
+func srhPgs(d string, typ string) ([]string, error) {
+    var url string
+    switch typ {
+    case "Lst":
+        url = fmt.Sprintf("http://www.141jav.com/latest/%s/", d)
+    case "Srh":
+        url = fmt.Sprintf("http://www.141jav.com/search/%s/", d)
+    default:
+        return nil, fmt.Errorf("[SrhPgs] Unknown typ %s", typ)
+    }
     ids := make([]string, 0)
-    url := fmt.Sprintf("http://www.141jav.com/search/%s/", kwd)
 
     res, err := http.Get(url)
     if err != nil {
-        return nil, fmt.Errorf("[S] %s: %s", kwd, err.Error())
+        return nil, fmt.Errorf("[%s] %s: %s", typ, d, err.Error())
     }
     byts, _ := ioutil.ReadAll(res.Body)
     pgn := gpn.GetNumPages(byts)
@@ -28,7 +36,7 @@ func SrhKwd(kwd string) ([]string, error) {
         if  len(ids) > 0 {
             return ids, nil
         } else {
-            return nil, fmt.Errorf("[S] %s: no search result", kwd)
+            return nil, fmt.Errorf("[%s] %s: no %s result", typ, d, typ)
         }
     }
 
@@ -50,7 +58,7 @@ func SrhKwd(kwd string) ([]string, error) {
                 if pgn == -1 {
                     break
                 }
-                url = fmt.Sprintf("http://www.141jav.com/search/%s/%d/", kwd, pgn)
+                url = url + fmt.Sprintf("%d/", pgn)
                 res, err = http.Get(url)
                 if err != nil {
                     continue
@@ -88,5 +96,13 @@ func SrhKwd(kwd string) ([]string, error) {
         }
     }
     return ids, nil
+}
+
+func SrhLst(date string) ([]string, error) {
+    return srhPgs(date, "Lst")
+}
+
+func SrhKwd(kwd string) ([]string, error) {
+    return srhPgs(kwd, "Srh")
 }
 

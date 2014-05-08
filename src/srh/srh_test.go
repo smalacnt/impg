@@ -22,4 +22,11 @@ func TestSrhKwd(t *testing.T) {
         t.Errorf("%s", "Processing search result failed")
         return
     }
+
+    ids, err = SrhLst("2014-04-29")
+
+    if ids[0] != "SPDR006" {
+        t.Errorf("%s", "Processing latest result failed")
+        return
+    }
 }

@@ -1,8 +1,7 @@
-// File: img.go
-// 5/4/2014
-// Edited by Wangdeqin
-// Download imgs according id to specifc path
-
+/*
+Package img implements a function GetImg that takes two arguements,
+path and id, and down the image specify by the id to the path.
+*/
 package img
 
 import (
@@ -12,6 +11,7 @@ import (
     "os"
 )
 
+// GetImg down image with id to path
 func GetImg(path string, id string) error {
     url := fmt.Sprintf("http://www.141jav.com/movies/%s.jpg", id)
     res, err := http.Get(url)
