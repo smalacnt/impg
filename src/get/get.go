@@ -4,8 +4,10 @@ Package main implements the main procedure of impg.
 The syntax of the user input is:
     
     $./get <si|st|it> <params>
-           <si|st>  :   <kwd> <dl_path>
-           <it>     :   <img_path> [dl_path]
+           <si|st> : <kwd> <dl_path>
+           <it>    : <img_path> [dl_path]
+           <li>    : <cnt>      [dl_path]
+           <lt>    : <cnt>      [dl_path]
 */
 
 package main
