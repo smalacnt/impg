@@ -11,15 +11,21 @@ import (
 
 // Search and download imgs/tors
 func sit(kwd string, dl_path string, it string) {
-    var down func(string, string)error
+    var down func(string, string, string)error
+    var urlTmpls []string
+
     switch it {
     case "img":
         down = img.GetImg
+        urlTmpls = conf.TOR_URL_TEMPLATES[:]
     case "tor":
         down = tor.GetTor
+        urlTmpls = conf.IMG_URL_TEMPLATES[:]
     default:
         return
     }
+
+    urlLen := len(urlTmpls)
 
     ids, err := srh.SrhKwd(kwd)
     if err != nil {
@@ -39,8 +45,15 @@ func sit(kwd string, dl_path string, it string) {
                 if id == "$" {
                     break
                 }
-                err := down(dl_path, id)
-                println("Downloading ", id, "...")
+
+                var urlIndex int
+                if t, ok := retry_map[id]; ok {
+                    urlIndex = t % urlLen
+                } else {
+                    urlIndex = 0
+                }
+                err := down(dl_path, id, urlTmpls[urlIndex])
+                fmt.Printf("Downloading %s...", id)
                 if err != nil {
                     if t, ok := retry_map[id]; ok {
                         if t < conf.RETRY_TIME {

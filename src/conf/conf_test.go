@@ -16,4 +16,12 @@ func TestConf(t *testing.T) {
     if THREAD_POOL_SIZE != 5  {
         t.Errorf("THREAD_POOL_SIZE expected %d, got %d", 5, THREAD_POOL_SIZE)
     }
+
+    if  l := len(TOR_URL_TEMPLATES); l != 4  {
+        t.Errorf("len(TOR_URL_TEMPLATES) expected %d, got %d", 4, l)
+    }
+
+    if  l := len(IMG_URL_TEMPLATES); l != 1  {
+        t.Errorf("len(IMG_URL_TEMPLATES) expected %d, got %d", 1, l)
+    }
 }

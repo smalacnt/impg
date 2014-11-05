@@ -12,8 +12,8 @@ import (
 )
 
 // GetImg down image with id to path
-func GetImg(path string, id string) error {
-    url := fmt.Sprintf("http://www.141jav.com/movies/%s.jpg", id)
+func GetImg(path, id, urlTmpl string) error {
+    url := fmt.Sprintf(urlTmpl, id)
     res, err := http.Get(url)
     defer func() {
         if res != nil && res.Body != nil {

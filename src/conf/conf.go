@@ -24,16 +24,26 @@ type Config struct {
     RetryTime       int         `xml:"retryTime"`
     IdChanSize      int         `xml:"idChanSize"`
     ThreadPoolSize  int         `xml:"threadPoolSize"`
+    TorUrls         []string    `xml:"torUrls>torUrl"`
+    ImgUrls         []string    `xml:"imgUrls>imgUrl"`
 }
 
 var RETRY_TIME, ID_CHAN_SIZE, THREAD_POOL_SIZE int
+var TOR_URL_TEMPLATES, IMG_URL_TEMPLATES []string
 
 func init() {
     v := &Conf{}
     f, err := os.Open("./conf.xml")
     if err != nil {
+        var torUrls []string
+        torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=torrage")
+        torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=ws")
+        torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=zoink")
+        torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=torcache")
+        var imgUrls []string
+        imgUrls = append(imgUrls, "http://www.141jav.com/movies/%s.jpg")
         v.Configs = append(v.Configs, Config{Version: "1", RetryTime: 5,
-                    IdChanSize: 10, ThreadPoolSize: 5})
+        IdChanSize: 10, ThreadPoolSize: 5, TorUrls: torUrls, ImgUrls: imgUrls})
         output, err := xml.MarshalIndent(v, "", "    ")
         if err != nil {
             fmt.Printf("Marshal conf failed! \nError: %v\n", err)
@@ -61,4 +71,6 @@ func init() {
     RETRY_TIME = v.Configs[0].RetryTime
     ID_CHAN_SIZE = v.Configs[0].IdChanSize
     THREAD_POOL_SIZE = v.Configs[0].ThreadPoolSize
+    TOR_URL_TEMPLATES = v.Configs[0].TorUrls
+    IMG_URL_TEMPLATES = v.Configs[0].ImgUrls
 }

@@ -7,8 +7,8 @@ import (
     "os"
 )
 
-func GetTor(path string, id string) error {
-    url := fmt.Sprintf("http://www.141jav.com/file.php?n=%s&q=torrage", id)
+func GetTor(path, id, urlTmpl string) error {
+    url := fmt.Sprintf(urlTmpl, id)
     res, err := http.Get(url)
     // check http.Get
     if err != nil {
