@@ -17,7 +17,7 @@ func GetTor(path, id, urlTmpl string) error {
 
     // check return content is torrent
     if res.Header["Content-Type"] == nil || res.Header["Content-Type"][0] != "application/x-bittorrent" {
-        return fmt.Errorf("[DT] %s: %s", id, "torrent not found")
+        return fmt.Errorf("[DT] %s: torrent no found url: %s", id, url)
     }
 
     fileName := id + ".torrent"

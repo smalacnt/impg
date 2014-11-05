@@ -28,7 +28,7 @@ func GetImg(path, id, urlTmpl string) error {
 
     // check return content is a img
     if res.Header["Content-Type"] == nil || res.Header["Content-Type"][0] != "image/jpeg" {
-        return fmt.Errorf("[DI] %s: picture not found", id)
+        return fmt.Errorf("[DI] %s: picture no found url: %s", id, url)
     }
 
     file, err := os.Create(path + "/" + id + ".jpg")

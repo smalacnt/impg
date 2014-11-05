@@ -17,10 +17,10 @@ func lit(cnt int,  dl_path string, it string) {
     switch it {
     case "img":
         down = img.GetImg
-        urlTmpls = conf.TOR_URL_TEMPLATES[:]
+        urlTmpls = conf.IMG_URL_TEMPLATES[:]
     case "tor":
         down = tor.GetTor
-        urlTmpls = conf.IMG_URL_TEMPLATES[:]
+        urlTmpls = conf.TOR_URL_TEMPLATES[:]
     default:
         return
     }
@@ -58,7 +58,7 @@ func lit(cnt int,  dl_path string, it string) {
                     urlIndex = 0
                 }
                 err := down(dl_path, id, urlTmpls[urlIndex])
-                println("Downloading ", id, "...")
+                fmt.Printf("Downloading %s...\n", id)
                 if err != nil {
                     if t, ok := retry_map[id]; ok {
                         if t < conf.RETRY_TIME {
