@@ -1,0 +1,7 @@
+<configs>
+    <config version="1">
+        <retryTime>5</retryTime>
+        <idChanSize>10</idChanSize>
+        <threadPoolSize>5</threadPoolSize>
+    </config>
+</configs>
