@@ -1,2 +1,7 @@
 *.a
 *.swp
+*.xml
+!/bin/conf.xml
+/src/img/*.jpg
+/src/tor/*.torrent
+/src/tor/*.jpg
