@@ -7,8 +7,8 @@ import (
     "os"
 )
 
-func GetTor(path string, id string) error {
-    url := fmt.Sprintf("http://www.141jav.com/file.php?n=%s&q=torrage", id)
+func GetTor(path, id, urlTmpl string) error {
+    url := fmt.Sprintf(urlTmpl, id)
     res, err := http.Get(url)
     // check http.Get
     if err != nil {
@@ -17,7 +17,7 @@ func GetTor(path string, id string) error {
 
     // check return content is torrent
     if res.Header["Content-Type"] == nil || res.Header["Content-Type"][0] != "application/x-bittorrent" {
-        return fmt.Errorf("[DT] %s: %s", id, "torrent not found")
+        return fmt.Errorf("[DT] %s: torrent no found url: %s", id, url)
     }
 
     fileName := id + ".torrent"

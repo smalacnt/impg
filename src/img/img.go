@@ -12,8 +12,8 @@ import (
 )
 
 // GetImg down image with id to path
-func GetImg(path string, id string) error {
-    url := fmt.Sprintf("http://www.141jav.com/movies/%s.jpg", id)
+func GetImg(path, id, urlTmpl string) error {
+    url := fmt.Sprintf(urlTmpl, id)
     res, err := http.Get(url)
     defer func() {
         if res != nil && res.Body != nil {
@@ -28,7 +28,7 @@ func GetImg(path string, id string) error {
 
     // check return content is a img
     if res.Header["Content-Type"] == nil || res.Header["Content-Type"][0] != "image/jpeg" {
-        return fmt.Errorf("[DI] %s: picture not found", id)
+        return fmt.Errorf("[DI] %s: picture no found url: %s", id, url)
     }
 
     file, err := os.Create(path + "/" + id + ".jpg")

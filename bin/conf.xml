@@ -1,0 +1,16 @@
+<configs>
+    <config version="1">
+        <retryTime>5</retryTime>
+        <idChanSize>10</idChanSize>
+        <threadPoolSize>5</threadPoolSize>
+        <torUrls>
+            <torUrl>http://www.141jav.com/file.php?n=%s&amp;q=torrage</torUrl>
+            <torUrl>http://www.141jav.com/file.php?n=%s&amp;q=ws</torUrl>
+            <torUrl>http://www.141jav.com/file.php?n=%s&amp;q=zoink</torUrl>
+            <torUrl>http://www.141jav.com/file.php?n=%s&amp;q=torcache</torUrl>
+        </torUrls>
+        <imgUrls>
+            <imgUrl>http://www.141jav.com/movies/%s.jpg</imgUrl>
+        </imgUrls>
+    </config>
+</configs>

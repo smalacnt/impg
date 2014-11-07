@@ -44,6 +44,7 @@ func srhPgs(d string, typ string) ([]string, error) {
     const THREAD_POOL_SIZE = 10
     const PGN_CHAN_SIZE = 5
     const ID_CHAN_SIZE = 20
+    urlTemplate := url + "%d/"
     pgn_chan := make(chan int64, PGN_CHAN_SIZE)
     id_chan := make(chan string, ID_CHAN_SIZE)
     var i int64
@@ -58,8 +59,8 @@ func srhPgs(d string, typ string) ([]string, error) {
                 if pgn == -1 {
                     break
                 }
-                url = url + fmt.Sprintf("%d/", pgn)
-                res, err = http.Get(url)
+                pageUrl := fmt.Sprintf(urlTemplate, pgn)
+                res, err = http.Get(pageUrl)
                 if err != nil {
                     continue
                 }
@@ -73,7 +74,7 @@ func srhPgs(d string, typ string) ([]string, error) {
     }
 
     go func() {
-        for i = 2; i <= pgn; i += 1 {
+        for i = 2; i <= pgn; i++ {
             pgn_chan <- i
         }
 
