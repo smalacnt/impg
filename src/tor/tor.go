@@ -8,6 +8,10 @@ import (
 )
 
 func GetTor(path, id, urlTmpl string) error {
+    fileName := path + "/" + id + ".torrent"
+    if info, err := os.Stat(fileName); err == nil && info.Size() > 0 {
+        return nil
+    }
     url := fmt.Sprintf(urlTmpl, id)
     res, err := http.Get(url)
     // check http.Get
@@ -20,8 +24,7 @@ func GetTor(path, id, urlTmpl string) error {
         return fmt.Errorf("[DT] %s: torrent no found url: %s", id, url)
     }
 
-    fileName := id + ".torrent"
-    file, err := os.Create(path + "/" + fileName)
+    file, err := os.Create(fileName)
     if err != nil {
         return fmt.Errorf("[DT] %s: %s", id, err.Error())
     }

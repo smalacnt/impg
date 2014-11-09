@@ -13,6 +13,10 @@ import (
 
 // GetImg down image with id to path
 func GetImg(path, id, urlTmpl string) error {
+    fileName := path + "/" + id + ".jpg"
+    if info, err := os.Stat(fileName); err == nil && info.Size() > 0 {
+        return nil 
+    }
     url := fmt.Sprintf(urlTmpl, id)
     res, err := http.Get(url)
     defer func() {
@@ -31,7 +35,7 @@ func GetImg(path, id, urlTmpl string) error {
         return fmt.Errorf("[DI] %s: picture no found url: %s", id, url)
     }
 
-    file, err := os.Create(path + "/" + id + ".jpg")
+    file, err := os.Create(fileName)
     // check create file
     if err != nil {
         return fmt.Errorf("[DI] %s: %s", id, err.Error())
