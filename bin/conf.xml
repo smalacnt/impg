@@ -12,5 +12,7 @@
         <imgUrls>
             <imgUrl>http://www.141jav.com/movies/%s.jpg</imgUrl>
         </imgUrls>
+        <lastestUrl>http://www.141jav.com/lastest/%s/</lastestUrl>
+        <searchUrl>http://www.141jav.com/search/%s/</searchUrl>
     </config>
 </configs>

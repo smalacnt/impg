@@ -26,10 +26,13 @@ type Config struct {
     ThreadPoolSize  int         `xml:"threadPoolSize"`
     TorUrls         []string    `xml:"torUrls>torUrl"`
     ImgUrls         []string    `xml:"imgUrls>imgUrl"`
+    LastestUrl      string      `xml:"lastestUrl"`
+    SearchUrl       string      `xml:"searchUrl"`
 }
 
 var RETRY_TIME, ID_CHAN_SIZE, THREAD_POOL_SIZE int
 var TOR_URL_TEMPLATES, IMG_URL_TEMPLATES []string
+var LASTEST_URL_TEMPLATE, SEARCH_URL_TEMPLATE string
 
 func init() {
     v := &Conf{}
@@ -40,10 +43,12 @@ func init() {
         torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=ws")
         torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=zoink")
         torUrls =  append(torUrls, "http://www.141jav.com/file.php?n=%s&q=torcache")
+        lastestUrl := "http://www.141jav.com/lastest/%s/"
+        searchUrl := "http://www.141jav.com/search/%s/"
         var imgUrls []string
         imgUrls = append(imgUrls, "http://www.141jav.com/movies/%s.jpg")
         v.Configs = append(v.Configs, Config{Version: "1", RetryTime: 5,
-        IdChanSize: 10, ThreadPoolSize: 5, TorUrls: torUrls, ImgUrls: imgUrls})
+        IdChanSize: 10, ThreadPoolSize: 5, TorUrls: torUrls, ImgUrls: imgUrls, LastestUrl: lastestUrl, SearchUrl: searchUrl})
         output, err := xml.MarshalIndent(v, "", "    ")
         if err != nil {
             fmt.Printf("Marshal conf failed! \nError: %v\n", err)
@@ -73,4 +78,6 @@ func init() {
     THREAD_POOL_SIZE = v.Configs[0].ThreadPoolSize
     TOR_URL_TEMPLATES = v.Configs[0].TorUrls
     IMG_URL_TEMPLATES = v.Configs[0].ImgUrls
+    LASTEST_URL_TEMPLATE = v.Configs[0].LastestUrl
+    SEARCH_URL_TEMPLATE = v.Configs[0].SearchUrl
 }
