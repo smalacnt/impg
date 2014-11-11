@@ -10,6 +10,7 @@ import (
     "gp/gpn"
     "net/http"
     "fmt"
+    "conf"
     "io/ioutil"
 )
 
@@ -17,9 +18,9 @@ func srhPgs(d string, typ string) ([]string, error) {
     var url string
     switch typ {
     case "Lst":
-        url = fmt.Sprintf("http://www.141jav.com/latest/%s/", d)
+        url = fmt.Sprintf(conf.LASTEST_URL_TEMPLATE, d)
     case "Srh":
-        url = fmt.Sprintf("http://www.141jav.com/search/%s/", d)
+        url = fmt.Sprintf(conf.SEARCH_URL_TEMPLATE, d)
     default:
         return nil, fmt.Errorf("[SrhPgs] Unknown typ %s", typ)
     }
