@@ -18,12 +18,13 @@ func srhPgs(d string, typ string) ([]string, error) {
     var url string
     switch typ {
     case "Lst":
-        url = fmt.Sprintf(conf.LASTEST_URL_TEMPLATE, d)
+        url = fmt.Sprintf(conf.LATEST_URL_TEMPLATE, d)
     case "Srh":
         url = fmt.Sprintf(conf.SEARCH_URL_TEMPLATE, d)
     default:
         return nil, fmt.Errorf("[SrhPgs] Unknown typ %s", typ)
     }
+    println(url)
     ids := make([]string, 0)
 
     res, err := http.Get(url)
@@ -45,7 +46,7 @@ func srhPgs(d string, typ string) ([]string, error) {
     const THREAD_POOL_SIZE = 10
     const PGN_CHAN_SIZE = 5
     const ID_CHAN_SIZE = 20
-    urlTemplate := url + "%d/"
+    urlTemplate := url + "/%d"
     pgn_chan := make(chan int64, PGN_CHAN_SIZE)
     id_chan := make(chan string, ID_CHAN_SIZE)
     var i int64

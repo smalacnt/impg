@@ -25,8 +25,8 @@ func TestSrhKwd(t *testing.T) {
 
     ids, err = SrhLst("2014-04-29")
 
-    if ids[0] != "SPDR006" {
-        t.Errorf("%s", "Processing latest result failed")
+    if err != nil || len(ids) <= 0 || ids[0] != "SPDR006" {
+        t.Errorf("%s %v", "Processing latest result failed", err)
         return
     }
 }
