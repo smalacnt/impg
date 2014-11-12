@@ -1,16 +1,16 @@
 package tor
 
 import (
-    "testing"
-    "conf"
+	"conf"
+	"testing"
 )
 
 func TestGetTor(t *testing.T) {
-    path := "."
-    id := "SPDR006"
+	path := "."
+	id := "SPDR006"
 
-    err := GetTor(path, id, conf.TOR_URL_TEMPLATES[0])
-    if err != nil {
-        t.Errorf("%s", err.Error())
-    }
+	err := GetTor(path, id, conf.TOR_URL_TEMPLATES[0])
+	if err != nil {
+		t.Errorf("%s", err.Error())
+	}
 }
