@@ -1,7 +1,6 @@
 package main
 
 import (
-	"cal"
 	"conf"
 	"fmt"
 	"img"
@@ -11,7 +10,7 @@ import (
 )
 
 // Latest cnt dates of imgs/tors
-func lit(cnt int, dl_path string, it string) {
+func lit(dates []string, dl_path string, it string) {
 	var down func(string, string, string) error
 	var urlTmpls []string
 	switch it {
@@ -27,8 +26,6 @@ func lit(cnt int, dl_path string, it string) {
 
 	urlLen := len(urlTmpls)
 
-	dates := cal.GetDates(cnt)
-
 	ids := make([]string, 0)
 
 	for _, date := range dates {
@@ -38,7 +35,7 @@ func lit(cnt int, dl_path string, it string) {
 			fmt.Fprintf(os.Stderr, "[SrhLst]: %s\n", err.Error())
 		}
 	}
-	println(len(ids), " result(s) for lst ", cnt)
+	println(len(ids), " result(s) for lst ")
 
 	id_chan := make(chan string, conf.ID_CHAN_SIZE)
 	end_chan := make(chan bool, conf.THREAD_POOL_SIZE)

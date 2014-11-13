@@ -1,15 +1,22 @@
 package cal
 
 import (
+    "time"
 	"testing"
 )
 
 func TestGetDates(t *testing.T) {
 	dates := GetDates(2)
-	if dates[0] != "2014-05-06" {
-		t.Errorf("GetDates: excepted \"2014-05-06\", got \"%s\"", dates[0])
-	}
-	if dates[1] != "2014-05-05" {
-		t.Errorf("GetDates: excepted \"2014-05-05\", got \"%s\"", dates[1])
-	}
+    if len(dates) < 2 {
+        t.Errorf("Excepted 2 dates, got %d days\n", len(dates))
+    }
+
+    ds, _ := time.Parse("2006-1-2", "2014-04-09")
+    de, _ := time.Parse("2006-1-2", "2014-4-11")
+    datesBtw := GetDatesBtw(ds, de)
+    if len(datesBtw) != 3 {
+        t.Errorf("ds = %v\n", ds)
+        t.Errorf("de = %v\n", de)
+        t.Errorf("GetDates(2014-5-29, 2014-6-4), got %v", datesBtw)
+    }
 }

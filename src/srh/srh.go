@@ -24,7 +24,6 @@ func srhPgs(d string, typ string) ([]string, error) {
 	default:
 		return nil, fmt.Errorf("[SrhPgs] Unknown typ %s", typ)
 	}
-	println(url)
 	ids := make([]string, 0)
 
 	res, err := http.Get(url)

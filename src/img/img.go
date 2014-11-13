@@ -35,6 +35,10 @@ func GetImg(path, id, urlTmpl string) error {
 		return fmt.Errorf("[DI] %s: picture no found url: %s", id, url)
 	}
 
+    if res.ContentLength == 0 {
+        return fmt.Errorf("[DI] %s: got empty file", id)
+    }
+
 	file, err := os.Create(fileName)
 	// check create file
 	if err != nil {

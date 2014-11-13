@@ -24,10 +24,16 @@ func GetTor(path, id, urlTmpl string) error {
 		return fmt.Errorf("[DT] %s: torrent no found url: %s", id, url)
 	}
 
+    if res.ContentLength == 0 {
+        return fmt.Errorf("[DT] %s: got empty file, len = %d", id, res.ContentLength)
+    }
+
+
 	file, err := os.Create(fileName)
 	if err != nil {
 		return fmt.Errorf("[DT] %s: %s", id, err.Error())
 	}
+
 	io.Copy(file, res.Body)
 	file.Sync()
 	file.Close()

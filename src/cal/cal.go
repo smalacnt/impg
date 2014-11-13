@@ -24,3 +24,18 @@ func GetDates(cnt int) []string {
 
 	return dates
 }
+
+func GetDatesBtw(ds, de time.Time) []string {
+    if de.Sub(ds).Hours() <= 0 {
+        // swap if not asc
+        ds, de = ds, de
+    }
+
+    var dates []string
+    for de.Sub(ds).Hours() >= 0 {
+        dates = append(dates, ds.Format(time.RFC3339)[:10])
+        ds = ds.AddDate(0, 0, 1)
+    }
+
+    return dates
+}

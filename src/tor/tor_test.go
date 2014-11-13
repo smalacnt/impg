@@ -7,9 +7,9 @@ import (
 
 func TestGetTor(t *testing.T) {
 	path := "."
-	id := "SPDR006"
+	id := "SET014"
 
-	err := GetTor(path, id, conf.TOR_URL_TEMPLATES[0])
+	err := GetTor(path, id, conf.TOR_URL_TEMPLATES[1])
 	if err != nil {
 		t.Errorf("%s", err.Error())
 	}

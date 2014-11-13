@@ -15,15 +15,18 @@ package main
 import (
 	"fmt"
 	"os"
+    "cal"
+    "time"
 	"strconv"
 )
 
 func usage(progName string) {
 	fmt.Printf("Usage: %s <si|st|it|li|lt> <params>\n", progName)
-	fmt.Println("          <si|st> : <kwd>      [dl_path]")
-	fmt.Println("          <it>    : <img_path> [dl_path]")
-	fmt.Println("          <li>    : <cnt>      [dl_path]")
-	fmt.Println("          <lt>    : <cnt>      [dl_path]")
+	fmt.Printf("          <si|st> : <kwd>        [dl_path]\n")
+	fmt.Printf("          <it>    : <img_path>   [dl_path]\n")
+	fmt.Printf("          <li>    : <cnt>        [dl_path]\n")
+	fmt.Printf("          <lt>    : <cnt>        [dl_path]\n")
+    fmt.Printf("          <cli>   : <ds>  <de>   [dl_path]\n")
 	os.Exit(0)
 }
 
@@ -67,7 +70,8 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Wrong <cnt>: %s\n", err.Error())
 			os.Exit(1)
 		}
-		lit(int(i), dl_path, "img")
+        dates := cal.GetDates(int(i))
+		lit(dates, dl_path, "img")
 	case "lt":
 		if len(os.Args) < 4 {
 			dl_path = "." // working dierctory
@@ -79,7 +83,38 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Wrong <cnt>: %s\n", err.Error())
 			os.Exit(1)
 		}
-		lit(int(i), dl_path, "tor")
+        dates := cal.GetDates(int(i))
+		lit(dates, dl_path, "tor")
+    case "cli":
+        arg_cnt := len(os.Args)
+        if arg_cnt == 4 {
+            dl_path = "."
+        } else if arg_cnt == 5 {
+            dl_path = os.Args[4]
+        } else {
+            usage(os.Args[0])
+            os.Exit(1)
+        }
+        ds_str := os.Args[2]
+        de_str := os.Args[3]
+        defer func() {
+            if e := recover(); e != nil {
+                fmt.Fprintf(os.Stderr, "Wrong date format, eg: 2006-1-2\n")
+                os.Exit(1)
+            }
+        } ()
+        ds, err := time.Parse("2006-1-2", ds_str)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "Wrong date format, eg: 2006-1-2\n")
+            os.Exit(1)
+        }
+        de, err := time.Parse("2006-1-2", de_str)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "Wrong date format, eg: 2006-1-2\n")
+            os.Exit(1)
+        }
+        dates := cal.GetDatesBtw(ds, de)
+        lit(dates, dl_path, "img")
 	default:
 		usage(os.Args[0])
 	}
