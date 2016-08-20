@@ -1,0 +1,9 @@
+*.a
+*.swp
+*.xml
+*.exe
+/bin/get
+/bin/conf.xml
+/src/img/*.jpg
+/src/tor/*.torrent
+/src/tor/*.jpg
